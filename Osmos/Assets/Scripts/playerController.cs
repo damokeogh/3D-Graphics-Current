@@ -5,26 +5,59 @@ using UnityEngine;
 public class playerController : MonoBehaviour {
 
     private Rigidbody2D rb2d;
-
-    public float speed;
-    public float size;
+    private float speed;
+    public static float size;
+    private Vector2 movement;
+    GameObject player;
 
     private void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        size = 3;
+        size = 2;
+        speed = 10;   
     }
 
     private void FixedUpdate()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-        Vector2 movement = new Vector2(moveHorizontal, moveVertical);
-        rb2d.AddForce(movement * speed);
 
-        Vector3 scale = new Vector3(size, size);
-        transform.localScale = scale;
+        PlayerMove();
+        PlayerScale();
+        
 
     }
+
+    private void PlayerMove()
+    {
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+        movement = new Vector2(moveHorizontal, moveVertical);
+        rb2d.AddForce(movement * speed);
+    }
+
+    private void PlayerScale()
+    {
+        Vector3 scale = new Vector3(size, size);
+        transform.localScale = scale;
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy") && other.otherRigidbody.mass <= size)
+        {
+            other.gameObject.SetActive(false);
+            size++;
+
+        }
+
+
+        if (other.gameObject.CompareTag("Enemy") && other.otherRigidbody.mass > size)
+        {
+            gameObject.SetActive(false);
+
+        }
+
+    }
+
+
 
 }
