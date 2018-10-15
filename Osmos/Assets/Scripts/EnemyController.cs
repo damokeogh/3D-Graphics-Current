@@ -24,7 +24,7 @@ public class EnemyController : MonoBehaviour {
         moveVertical = Random.Range(-1, 1);
 
         //set random size to mote
-        radius = Random.Range(1, 4);
+        radius = Random.Range(1, 6);
         Vector3 scale = new Vector3(radius, radius);
 
         ////set collider radius = to sprite radius

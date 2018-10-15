@@ -1,20 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class playerController : MonoBehaviour {
 
+    public static float size;
+
+    public Text WinText;
+
+    private int score;
     private Rigidbody2D rb2d;
     private float speed;
-    public static float size;
     private Vector2 movement;
-    GameObject player;
 
     private void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         size = 2;
-        speed = 10;   
+        speed = 10;
+        score = 0;
+        WinText.text = "";
+
     }
 
     private void FixedUpdate()
@@ -22,7 +29,7 @@ public class playerController : MonoBehaviour {
 
         PlayerMove();
         PlayerScale();
-        
+        CheckWin();
 
     }
 
@@ -40,19 +47,31 @@ public class playerController : MonoBehaviour {
         transform.localScale = scale;
     }
 
+    private void CheckWin()
+    {
+        if(score == 21)
+        {
+            WinText.text = "YOU WIN";
+            
+        }
+    
+
+    }
+
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Enemy") && other.otherRigidbody.mass <= size)
+        if (other.gameObject.CompareTag("Enemy") && other.rigidbody.mass <= size)
         {
             other.gameObject.SetActive(false);
-            size++;
+            size = size + 0.5f;
+            score++;
 
         }
 
 
-        if (other.gameObject.CompareTag("Enemy") && other.otherRigidbody.mass > size)
+        if (other.gameObject.CompareTag("Enemy") && other.rigidbody.mass > size)
         {
-            gameObject.SetActive(false);
+            this.gameObject.SetActive(false);
 
         }
 
