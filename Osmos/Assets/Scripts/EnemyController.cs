@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour {
 
     private Rigidbody2D rb2d;
-    private CircleCollider2D circle;
     private float moveHorizontal;
     private float moveVertical;
     private float radius;
@@ -16,7 +15,6 @@ public class EnemyController : MonoBehaviour {
     private void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        circle = GetComponent<CircleCollider2D>();
         enemyRenderer = GetComponent<SpriteRenderer>();
 
         //set random speed and direction to mote
@@ -26,9 +24,6 @@ public class EnemyController : MonoBehaviour {
         //set random size to mote
         radius = Random.Range(1, 6);
         Vector3 scale = new Vector3(radius, radius);
-
-        ////set collider radius = to sprite radius
-        //circle.radius = radius;
 
         //set mass to radius
         rb2d.mass = radius;

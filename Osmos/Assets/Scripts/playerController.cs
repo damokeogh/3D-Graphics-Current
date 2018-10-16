@@ -9,6 +9,9 @@ public class playerController : MonoBehaviour {
 
     public Text WinText;
 
+
+    private float oldHorizontal;
+    private float oldVertical;
     private int score;
     private Rigidbody2D rb2d;
     private float speed;
@@ -17,7 +20,7 @@ public class playerController : MonoBehaviour {
     private void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        size = 2;
+        size = 3;
         speed = 10;
         score = 0;
         WinText.text = "";
@@ -43,6 +46,11 @@ public class playerController : MonoBehaviour {
 
     private void PlayerScale()
     {
+        //reduces player size if movement keys pressed
+        if(Input.GetKey("w") || Input.GetKey("a") || Input.GetKey("s") || Input.GetKey("d"))
+        {
+            size = size - 0.01f;
+        }
         Vector3 scale = new Vector3(size, size);
         transform.localScale = scale;
     }
@@ -72,6 +80,7 @@ public class playerController : MonoBehaviour {
         if (other.gameObject.CompareTag("Enemy") && other.rigidbody.mass > size)
         {
             this.gameObject.SetActive(false);
+            WinText.text = "YOU LOSE";
 
         }
 
